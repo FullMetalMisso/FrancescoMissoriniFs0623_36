@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import App from '../App'
 
-describe('main rendering tests', () => {
-  it('renders Welcome component', () => {
+describe('test di render di welcome', () => {
+  it('reinderizza i componenti di welcome', () => {
     render(<App />)
     const mainHeader = screen.getByRole('heading', {
       name: /welcome in epibooks!/i,
@@ -10,13 +10,13 @@ describe('main rendering tests', () => {
     expect(mainHeader).toBeInTheDocument()
   })
 
-  it('renders all the 150 books', () => {
+  it('visualizza tutti i libri', () => {
     render(<App />)
     const allTheBookCards = screen.getAllByTestId('book-card')
     expect(allTheBookCards).toHaveLength(150)
   })
 
-  it('renders CommentArea component', () => {
+  it('rendeirizza i componenti di CommentArea ', () => {
     render(<App />)
     const reviewInputField = screen.getByPlaceholderText(
       /inserisci qui il testo/i
@@ -25,26 +25,26 @@ describe('main rendering tests', () => {
   })
 })
 
-describe('filter testing', () => {
-  it("finds just one result for the word 'arrow'", () => {
+describe('test della ricerca', () => {
+  it("ricerca una parola 'harry'", () => {
     render(<App />)
     const filterInputField = screen.getByPlaceholderText(/cerca un libro/i)
-    fireEvent.change(filterInputField, { target: { value: 'arrows' } })
+    fireEvent.change(filterInputField, { target: { value: 'harry' } })
     const allTheBookCards = screen.getAllByTestId('book-card')
     expect(allTheBookCards).toHaveLength(1)
   })
 
-  it("finds three results for the word 'witcher'", () => {
+  it("trova 3 risultati per la parola 'lord'", () => {
     render(<App />)
     const filterInputField = screen.getByPlaceholderText(/cerca un libro/i)
-    fireEvent.change(filterInputField, { target: { value: 'witcher' } })
+    fireEvent.change(filterInputField, { target: { value: 'lord' } })
     const allTheBookCards = screen.getAllByTestId('book-card')
     expect(allTheBookCards).toHaveLength(3)
   })
 })
 
-describe('SingleBook testing', () => {
-  it('makes book card border change clicking on it', () => {
+describe('test di singleBook', () => {
+  it('controlla che il colore diventi rosso al click', () => {
     render(<App />)
     const allTheBookCards = screen.getAllByTestId('book-card')
     const firstBookCard = allTheBookCards[0]
@@ -52,7 +52,7 @@ describe('SingleBook testing', () => {
     expect(firstBookCard).toHaveStyle('border: 3px solid red')
   })
 
-  it('restores normal border after clicking on a second book', () => {
+  it('reimposta il colore', () => {
     render(<App />)
     const allTheBookCards = screen.getAllByTestId('book-card')
     const firstBookCard = allTheBookCards[0]
@@ -64,14 +64,14 @@ describe('SingleBook testing', () => {
   })
 })
 
-describe('CommentList testing', () => {
+describe('test di commentiList', () => {
   it('renders no book comments on load', () => {
     render(<App />)
     const allTheBookComments = screen.queryAllByTestId('single-comment')
     expect(allTheBookComments).toHaveLength(0)
   })
 
-  it('renders comments clicking on a valid book', async () => {
+  it('visualizza i commenti giusti cliccando sul libro', async () => {
     render(<App />)
     const allTheBookCards = screen.getAllByTestId('book-card')
     const firstBookCard = allTheBookCards[0]
